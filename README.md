@@ -1,2 +1,2 @@
 # minesweeper
-Minesweeper game on flask and react
+Minesweeper game developed on Flask and React
