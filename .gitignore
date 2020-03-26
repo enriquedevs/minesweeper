@@ -1,1 +1,25 @@
+# IDE config files
 .idea
+
+# dependencies
+react-client/node_modules
+react-client/.pnp
+react-client/.pnp.js
+
+# testing
+react-client/coverage
+
+# production
+react-client/build
+
+# misc
+react-client/.DS_Store
+react-client/.env.local
+react-client/.env.development.local
+react-client/.env.test.local
+react-client/.env.production.local
+
+react-client/npm-debug.log*
+react-client/yarn-debug.log*
+react-client/yarn-error.log*
+react-client/package-lock.json
