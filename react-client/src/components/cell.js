@@ -6,26 +6,30 @@ let endMineSweeperGame = false;
 class Cell extends Component {
   constructor(props) {
     super(props);
-    this.state = { clicked: false, flag: "" };
+    this.state = props.cellState ? props.cellState : { clicked: false, flag: "" };
   }
   handleClick({ target }) {
     let { row, column, incCellsClicked, value } = this.props;
     let { clicked, flag } = this.state;
     if (!flag) this.setState({ clicked: true });
-    if (!clicked) incCellsClicked();
+    if (!clicked) incCellsClicked(row, column, flag);
     if (!endMineSweeperGame) {
       // Empty cell click --> recursion
       if (value === "" && target.id === `${row}_${column}`)
         recursionClick(target, row, column);
-      //click bomb scenario --> end game
+      // click bomb scenario --> end game
       if (value === "☀" && !flag) endGame(target);
     }
   }
   handleContextMenu(e) {
     e.preventDefault();
+    let { row, column, updateCellState } = this.props;
     let { clicked, flag } = this.state;
-    if (!clicked)
-      flag ? this.setState({ flag: "" }) : this.setState({ flag: "⚑" });
+    if (!clicked) {
+      flag = flag ? "" : "⚑";
+      updateCellState(row, column, clicked, flag);
+      this.setState({ flag })
+    }
   }
   render() {
     let { row, column, value } = this.props;

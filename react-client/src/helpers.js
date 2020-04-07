@@ -43,6 +43,16 @@ export function valsAdjacentCounts(
   return nestedArray;
 }
 
+export function defaultCellsState(row, col) {
+  let cellsState = {}
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
+      cellsState[`${i}_${j}`] = null;
+    }
+  }
+  return cellsState;
+}
+
 function addOneNestedArrAdjacents(
   nestedArray,
   i,

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import Cell from "./cell";
+import Cell from "./Cell";
 import {
   nestedArray,
   populateNestedArray,
-  valsAdjacentCounts
+  valsAdjacentCounts,
+  defaultCellsState
 } from "../helpers";
 
 class Map extends Component {
@@ -18,17 +19,24 @@ class Map extends Component {
         populateNestedArray(nestedArray(mapSize, mapSize), "☀", bombCount),
         "☀"
       ),
-      cellsClicked: 1
+      cellsClicked: 1,
+      cellsState: defaultCellsState(mapSize, mapSize)
     };
   }
 
-  incCellsClicked() {
-    let { mapSize, bombCount, cellsClicked } = this.state;
+  incCellsClicked(row, col, flag) {
+    let { mapSize, bombCount, cellsClicked, cellsState } = this.state;
     let safeCells = mapSize * mapSize - bombCount;
     this.setState({
       cellsClicked: cellsClicked + 1
     });
+    this.updateCellState(row, col, true, flag)
     if (cellsClicked >= safeCells) alert("☀☀☀ You have won! ☀☀☀");
+  }
+
+  updateCellState(row, col, clicked, flag) {
+    this.state.cellsState[`${row}_${col}`] = { clicked, flag }
+    this.setState({ cellsState: this.state.cellsState })
   }
 
   render() {
@@ -40,12 +48,15 @@ class Map extends Component {
               return (
                 <tr key={row} className="mapRow">
                   {item.map((subitem, col) => {
+                    const cellState = this.state.cellsState[`${row}_${col}`];
                     return (
                       <Cell
                         key={col}
                         row={row}
                         column={col}
                         value={subitem}
+                        cellState={cellState}
+                        updateCellState={this.updateCellState.bind(this)}
                         incCellsClicked={this.incCellsClicked.bind(this)}
                       />
                     );
