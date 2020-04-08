@@ -4,14 +4,17 @@ import "./App.css";
 
 class App extends Component {
   render() {
-    const widthStyle = {
-      width: "800px"
-    };
     return (
-      <div style={widthStyle}>
-        <div className="App">
+      <div>
+        <nav>
+          <div class="nav-wrapper">
+            <a class="brand-logo center">Minesweeper</a>
+          </div>
+        </nav>
+        <div className="container">
           <br />
-          <Map className="map" />
+          <Map className="center"/>
+          <br />
         </div>
       </div>
     );

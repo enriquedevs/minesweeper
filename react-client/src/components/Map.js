@@ -10,7 +10,7 @@ import {
 class Map extends Component {
   constructor(props) {
     super(props);
-    let mapSize = 10;
+    let mapSize = 15;
     let bombCount = 10;
     this.state = {
       mapSize,
@@ -25,7 +25,7 @@ class Map extends Component {
   }
 
   incCellsClicked(row, col, flag) {
-    let { mapSize, bombCount, cellsClicked, cellsState } = this.state;
+    let { mapSize, bombCount, cellsClicked } = this.state;
     let safeCells = mapSize * mapSize - bombCount;
     this.setState({
       cellsClicked: cellsClicked + 1
@@ -35,8 +35,9 @@ class Map extends Component {
   }
 
   updateCellState(row, col, clicked, flag) {
-    this.state.cellsState[`${row}_${col}`] = { clicked, flag }
-    this.setState({ cellsState: this.state.cellsState })
+    let { cellsState } = this.state;
+    cellsState[`${row}_${col}`] = { clicked, flag }
+    this.setState({ cellsState })
   }
 
   render() {
