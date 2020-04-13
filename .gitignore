@@ -18,8 +18,15 @@ react-client/.env.local
 react-client/.env.development.local
 react-client/.env.test.local
 react-client/.env.production.local
-
 react-client/npm-debug.log*
 react-client/yarn-debug.log*
 react-client/yarn-error.log*
 react-client/package-lock.json
+
+# db file
+flask-api/data.db
+
+# cache files
+flask-api/__pycache__
+flask-api/models/__pycache__
+flask-api/resources/__pycache__
