@@ -39,19 +39,40 @@ class GameResource(Resource):
                         required=True,
                         help="Game needs cellsClicked."
                         )
-    parser.add_argument('time',
-                        type=str,
+    parser.add_argument('minutes',
+                        type=int,
                         required=True,
-                        help="Game needs the time."
+                        help="Game needs number of minutes elapsed."
+                        )
+    parser.add_argument('seconds',
+                        type=int,
+                        required=True,
+                        help="Game needs number of seconds elapsed."
+                        )
+    parser.add_argument('millis',
+                        type=int,
+                        required=True,
+                        help="Game needs number of millis elapsed."
+                        )
+    parser.add_argument('victory',
+                        type=int,
+                        required=True,
+                        help="Game needs if it is a victory."
+                        )
+    parser.add_argument('endGame',
+                        type=int,
+                        required=True,
+                        help="Game needs if the game is endGame."
                         )
 
     def post(self, username):
         data = GameResource.parser.parse_args()
 
-        if 'gameId' in data:
+        if 'gameId' in data and data['gameId'] is not None:
             try:
                 game = GameModel.find_by_id(data['gameId'])
-                game.update_to_db(data['board'], data['cellsState'], data['cellsClicked'], data['time'])
+                game.update_to_db(data['board'], data['cellsState'], data['cellsClicked'], data['minutes'],
+                                  data['seconds'], data['millis'], data['victory'], data['endGame'])
             except Exception as e:
                 print(e)
                 return {"message": "An error occurred updating the game."}, 500

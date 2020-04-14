@@ -11,12 +11,16 @@ class GameModel(db.Model):
     board = db.Column(db.String(1000))
     cells_state = db.Column(db.String(2000))
     cells_clicked = db.Column(db.Integer)
-    time = db.Column(db.String(10))
+    minutes = db.Column(db.Integer)
+    seconds = db.Column(db.Integer)
+    millis = db.Column(db.Integer)
+    victory = db.Column(db.Integer)
+    end_game = db.Column(db.Integer)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('UserModel')
 
-    def __init__(self, user_id, rows, cols, bombs, board, cells_state, cells_clicked, time):
+    def __init__(self, user_id, rows, cols, bombs, board, cells_state, cells_clicked, minutes, seconds, millis, victory, end_game):
         self.user_id = user_id
         self.rows = rows
         self.cols = cols
@@ -24,7 +28,11 @@ class GameModel(db.Model):
         self.board = board
         self.cells_state = cells_state
         self.cells_clicked = cells_clicked
-        self.time = time
+        self.minutes = minutes
+        self.seconds = seconds
+        self.millis = millis
+        self.victory = victory
+        self.end_game = end_game
 
     def json(self):
         return {'gameId': self.id,
@@ -34,7 +42,11 @@ class GameModel(db.Model):
                 'board': self.board,
                 'cellsState': self.cells_state,
                 'cellsClicked': self.cells_clicked,
-                'time': self.time
+                'minutes': self.minutes,
+                'seconds': self.seconds,
+                'millis': self.millis,
+                'victory': self.victory,
+                'endGame': self.endGame
                 }
 
     @classmethod
@@ -49,9 +61,13 @@ class GameModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update_to_db(self, board, cells_state, cells_clicked, time):
+    def update_to_db(self, board, cells_state, cells_clicked, minutes, seconds, millis, victory, end_game):
         self.board = board
         self.cells_state = cells_state
         self.cells_clicked = cells_clicked
-        self.time = time
+        self.minutes = minutes
+        self.seconds = seconds
+        self.millis = millis
+        self.victory = victory
+        self.end_game = end_game
         db.session.commit()
