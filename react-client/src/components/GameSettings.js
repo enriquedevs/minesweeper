@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Service from "../service";
 const { Select, Button, TextInput } = require('react-materialize');
 
 class GameSettings extends Component {
@@ -6,26 +7,29 @@ class GameSettings extends Component {
     super(props);
     this.state = {
       user: null,
-      rows: 5,
-      cols: 5,
-      bombs: 5,
-      time: null,
+      games: [],
+      rows: 4,
+      cols: 4,
+      bombs: 4,
       enableUser: true,
       showExistingUserOptions: false,
       showGameSettings: false,
-      enableGameSettings: true,
       showStartGame: false,
+      enableGameSettings: true,
       showGameList: false
     }
   }
 
-  selectUser() {
-    this.setState({enableUser: false, showExistingUserOptions: false, showGameSettings: true, showStartGame: true});
+  async selectUser() {
+    const userObj = await Service.getUser(this.state.user);
+    if (userObj) this.setState({ showExistingUserOptions: true, games: userObj.games }); 
+    else this.setState({ showGameSettings: true, showStartGame: true });
+    this.setState({enableUser: false });
   }
 
   startGame() {
-    let {rows, cols, bombs} = this.state
-    this.setState({enableGameSettings: false, showStartGame: false});
+    const { rows, cols, bombs } = this.state
+    this.setState({ enableGameSettings: false, showStartGame: false});
     this.props.startGame(rows, cols, bombs);
   }
 
@@ -37,13 +41,27 @@ class GameSettings extends Component {
     // TODO
   }
 
-  saveGame() {
-    // TODO
+  async saveGame() {
+    const { user, games } = this.state;
+    await this.props.saveGameAndResetSettings(user, games.length > 0);
+    this.setState({
+      games: [],
+      rows: 4,
+      cols: 4,
+      bombs: 4,
+      time: null,
+      enableUser: true,
+      showExistingUserOptions: false,
+      showGameSettings: false,
+      showStartGame: false,
+      enableGameSettings: true,
+      showGameList: false
+    });
   }
 
   render() {
     const optionValues = [5,6,7,8,9,10,11,12,13,14,15];
-    let { enableUser, showExistingUserOptions, showGameSettings, enableGameSettings, showGameList, showStartGame, user } = this.state
+    let { enableUser, showExistingUserOptions, showGameSettings, enableGameSettings, showStartGame, showGameList, user } = this.state
     return (
       <div>
         <TextInput 
@@ -57,9 +75,9 @@ class GameSettings extends Component {
         }
         {showExistingUserOptions &&
           <div>
-            <Button>Start new Game</Button>
+            <Button onClick={(event) => this.setState({showGameSettings: true, showStartGame: true, showExistingUserOptions: false})}>Start new Game</Button>
             <br/><br/>
-            <Button>Load/View Existing Game</Button>
+            <Button>View Existing Games</Button>
           </div>
         }
         {showGameSettings &&
@@ -107,8 +125,7 @@ class GameSettings extends Component {
         }
         {!enableGameSettings &&
           <div className="row">
-            <p>Time elapsed: 00:00:00</p>
-            <Button>Save and Return to new Settings</Button>
+            <Button onClick={this.saveGame.bind(this)}>Save and Return to new Settings</Button>
           </div>
         }
       </div>

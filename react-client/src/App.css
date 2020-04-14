@@ -32,3 +32,18 @@ td:after {
   font-size: 30px;
   padding: 0px;
 }
+
+.won {
+  color: rgb(68, 122, 68);
+  font-weight: bold;
+}
+
+.lost {
+  color: rgb(216, 0, 0);
+  font-weight: bold;
+}
+
+.timer {
+  color: black;
+  font-weight: bold;
+}

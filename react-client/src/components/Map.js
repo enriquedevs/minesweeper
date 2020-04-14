@@ -26,6 +26,7 @@ class Map extends Component {
                         cellState={cellState}
                         incCellsClicked={this.props.incCellsClicked.bind(this)}
                         updateCellState={this.props.updateCellState.bind(this)}
+                        notifyEndGame={this.props.notifyEndGame.bind(this)}
                       />
                     );
                   })}
