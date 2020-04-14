@@ -71,7 +71,7 @@ class GameResource(Resource):
         if 'gameId' in data and data['gameId'] is not None:
             try:
                 game = GameModel.find_by_id(data['gameId'])
-                game.update_to_db(data['board'], data['cellsState'], data['cellsClicked'], data['minutes'],
+                game.update_to_db(data['cellsState'], data['cellsClicked'], data['minutes'],
                                   data['seconds'], data['millis'], data['victory'], data['endGame'])
             except Exception as e:
                 print(e)

@@ -61,8 +61,7 @@ class GameModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update_to_db(self, board, cells_state, cells_clicked, minutes, seconds, millis, victory, end_game):
-        self.board = board
+    def update_to_db(self, cells_state, cells_clicked, minutes, seconds, millis, victory, end_game):
         self.cells_state = cells_state
         self.cells_clicked = cells_clicked
         self.minutes = minutes
