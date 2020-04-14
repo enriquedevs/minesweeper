@@ -11,17 +11,17 @@ class Cell extends Component {
   handleClick({ target }) {
     let { row, column, incCellsClicked, value } = this.props;
     let { clicked, flag } = this.state;
+    if (Cell.isEndGame) return; // Cell.isEndGame is initialized on App.js when starting the game
     if (!flag) this.setState({ clicked: true });
-    if (!clicked) incCellsClicked(row, column, flag);
-    if (!Cell.isEndGame) { // Cell.isEndGame is initialized on App.js when starting the game
-      // Empty cell click --> recursion
-      if (value === "" && target.id === `${row}_${column}`)
-        this.recursionClick(target, row, column);
-      // click bomb scenario --> end game
-      if (value === "☀" && !flag) {
-        this.props.notifyEndGame();
-        this.endGame(target);
-      }
+    if (!clicked && value !== "☀") incCellsClicked(row, column, flag);
+    // Empty cell click --> recursion
+    if (value === "" && target.id === `${row}_${column}`)
+      this.recursionClick(target, row, column);
+    // click bomb scenario --> end game
+    if (value === "☀" && !flag) {
+      Cell.isEndGame = true;
+      target.style.backgroundColor = "black";
+      this.props.notifyEndGame(row, column, true);
     }
   }
 
@@ -48,21 +48,6 @@ class Cell extends Component {
         });
       }
     }
-    return;
-  }
-
-  endGame(target) {
-    Cell.isEndGame = true;
-    target.style.backgroundColor = "black";
-    let cols = target.parentElement.children.length;
-    let rows = target.parentElement.parentElement.children.length;
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < cols; j++) {
-        if (document.getElementById(`${i}_${j}`))
-          document.getElementById(`${i}_${j}`).click();
-      }
-    }
-    return;
   }
 
   render() {

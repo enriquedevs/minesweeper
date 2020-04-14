@@ -48,6 +48,8 @@ class App extends Component {
     this.updateCellState(row, col, true, flag);
     if (cellsClicked >= safeCells) {
       alert("☀☀☀ You have won! ☀☀☀");
+      Cell.isEndGame = true;
+      this.stopTimer();
       this.setState({ endGame: 1, victory: 1 });
     }
   }
@@ -58,8 +60,12 @@ class App extends Component {
     this.setState({ mapObject: { ...this.state.mapObject, cellsState: cellsState}});
   }
 
-  notifyEndGame() {
+  notifyEndGame(row, col) {
+    alert("☀☀☀ You lose the game. ☀☀☀");
     this.stopTimer();
+    let { cellsState } = this.state.mapObject;
+    cellsState[`${row}_${col}`] = { clicked: true, flag: "" };
+    this.setState({ mapObject: { ...this.state.mapObject, cellsState: cellsState}});
     this.setState({ endGame: 1 });
   }
 

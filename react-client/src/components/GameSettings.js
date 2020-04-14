@@ -8,9 +8,9 @@ class GameSettings extends Component {
     this.state = {
       user: null,
       games: [],
-      rows: 4,
-      cols: 4,
-      bombs: 4,
+      rows: 5,
+      cols: 5,
+      bombs: 5,
       enableUser: true,
       showExistingUserOptions: false,
       showGameSettings: false,
@@ -46,9 +46,9 @@ class GameSettings extends Component {
     await this.props.saveGameAndResetSettings(user, games.length > 0);
     this.setState({
       games: [],
-      rows: 4,
-      cols: 4,
-      bombs: 4,
+      rows: 5,
+      cols: 5,
+      bombs: 5,
       time: null,
       enableUser: true,
       showExistingUserOptions: false,
@@ -106,7 +106,7 @@ class GameSettings extends Component {
             </Select>
             <Select
               multiple={false}
-              label="Number of Bombs"
+              label="Number of Mines"
               value={this.state.bombs}
               disabled={!enableGameSettings}
               onChange={(event) => this.setState({bombs: event.target.value})}
