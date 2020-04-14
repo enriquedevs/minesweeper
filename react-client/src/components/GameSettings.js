@@ -69,12 +69,13 @@ class GameSettings extends Component {
       <div>
         <TextInput 
           label="Username"
+          data-length={50}
           value={this.state.user}
           disabled={!enableUser}
           onChange={(event) => this.setState({user: event.target.value})}
         />
         {enableUser && 
-          <Button onClick={this.selectUser.bind(this)} disabled={user === null || user.length < 1}>Select User</Button>
+          <Button onClick={this.selectUser.bind(this)} disabled={user === null || user.length < 1 || user.length > 50 }>Select User</Button>
         }
         {showExistingUserOptions &&
           <div>
