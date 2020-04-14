@@ -61,7 +61,6 @@ class App extends Component {
   }
 
   notifyEndGame(row, col) {
-    alert("☀☀☀ You lose the game. ☀☀☀");
     this.stopTimer();
     let { cellsState } = this.state.mapObject;
     cellsState[`${row}_${col}`] = { clicked: true, flag: "" };
@@ -83,6 +82,26 @@ class App extends Component {
     this.setState({ cellsClicked: 1, endGame: 0, victory: 0, minutes: 0, seconds: 0, millis: 0});
     this.startTimer();
     Cell.isEndGame = false;
+  }
+
+  resumeGame(gameId, rows, cols, bombs, board, cellsState, cellsClicked, endGame, victory, minutes, seconds, millis) {
+    let mapObject = {
+      gameId,
+      rows,
+      cols,
+      bombs,
+      board,
+      cellsState,
+      visible: true
+    }
+    this.setState({ mapObject });
+    this.setState({ cellsClicked, endGame, victory, minutes, seconds, millis });
+    if (endGame) {
+      Cell.isEndGame = true;
+    } else {
+      Cell.isEndGame = false;
+      this.startTimer();
+    }
   }
 
   async saveGameAndResetSettings(username, existingUser) {
@@ -142,6 +161,7 @@ class App extends Component {
             className="center"
             startGame={this.startGame.bind(this)}
             saveGameAndResetSettings={this.saveGameAndResetSettings.bind(this)}
+            resumeGame={this.resumeGame.bind(this)}
           />
           <br />
           {mapObject.visible &&

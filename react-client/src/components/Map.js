@@ -9,7 +9,7 @@ class Map extends Component {
 
   render() {
     return (
-      <div>
+      <div className="board">
         <table>
           <tbody>
             {this.state.mapObject.board.map((item, row) => {

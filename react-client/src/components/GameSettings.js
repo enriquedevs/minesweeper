@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Service from "../service";
-const { Select, Button, TextInput } = require('react-materialize');
+const { Select, Button, TextInput, Table } = require('react-materialize');
 
 class GameSettings extends Component {
   constructor(props) {
@@ -33,12 +33,11 @@ class GameSettings extends Component {
     this.props.startGame(rows, cols, bombs);
   }
 
-  fetchExistingGames() {
-    // TODO
-  }
-
-  loadExistingGame() {
-    // TODO
+  fetchExistingGame(event) {
+    const game = this.state.games.find((g) => g.gameId === parseInt(event.target.id));
+    const { gameId, rows, cols, bombs, board, cellsState, cellsClicked, endGame, victory, minutes, seconds, millis } = game;
+    this.props.resumeGame(gameId, rows, cols, bombs, JSON.parse(board), JSON.parse(cellsState), cellsClicked, endGame, victory, minutes, seconds, millis);
+    this.setState({ showGameSettings: true, enableGameSettings: false, showGameList: false, });
   }
 
   async saveGame() {
@@ -59,6 +58,10 @@ class GameSettings extends Component {
     });
   }
 
+  zeroPad(value) {
+    return value < 10 ? `0${value}` : value;
+  }
+
   render() {
     const optionValues = [5,6,7,8,9,10,11,12,13,14,15];
     let { enableUser, showExistingUserOptions, showGameSettings, enableGameSettings, showStartGame, showGameList, user } = this.state
@@ -77,7 +80,7 @@ class GameSettings extends Component {
           <div>
             <Button onClick={(event) => this.setState({showGameSettings: true, showStartGame: true, showExistingUserOptions: false})}>Start new Game</Button>
             <br/><br/>
-            <Button>View Existing Games</Button>
+            <Button onClick={(event) => this.setState({showGameList: true, showExistingUserOptions: false})}>View Existing Games</Button>
           </div>
         }
         {showGameSettings &&
@@ -120,7 +123,63 @@ class GameSettings extends Component {
         {showStartGame && <Button onClick={this.startGame.bind(this)}>Start Game</Button> }
         {showGameList &&
           <div>
-            Existing games: To Do
+            <p className="existing-games">EXISTING GAMES:</p>
+            <Table>
+              <thead>
+                <tr>
+                  <th className="center" data-field="gameId">
+                    Game ID
+                  </th>
+                  <th className="center" data-field="board">
+                    Board
+                  </th>
+                  <th className="center" data-field="mines">
+                    Mines
+                  </th>
+                  <th className="center" data-field="time">
+                    Time Elapsed
+                  </th>
+                  <th className="center" data-field="price">
+                    Finished Game
+                  </th>
+                  <th className="center" data-field="victory">
+                    Victory
+                  </th>
+                  <th className="center" data-field="victory">
+                    View / Resume Game
+                  </th>
+                </tr>
+              </thead>
+                <tbody>
+                  {this.state.games.map((game, row) => {
+                    return (
+                      <tr>
+                        <td className="center">
+                          {game.gameId}
+                        </td>
+                        <td className="center">
+                          {game.rows} X {game.cols}
+                        </td>
+                        <td className="center">
+                          {game.bombs}
+                        </td>
+                        <td className="center">
+                          {this.zeroPad(game.minutes)}:{this.zeroPad(game.seconds)}.0{game.millis}
+                        </td>
+                        <td className="center">
+                          {game.endGame ? 'YES': 'NO'}
+                        </td>
+                        <td className="center">
+                          {game.victory ? 'YES': 'NO'}
+                        </td>
+                        <td className="center">
+                          <Button id={game.gameId} onClick={this.fetchExistingGame.bind(this)}>{game.endGame ? 'View' : 'Resume'}</Button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+            </Table>
           </div>
         }
         {!enableGameSettings &&
