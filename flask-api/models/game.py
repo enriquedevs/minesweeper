@@ -46,7 +46,7 @@ class GameModel(db.Model):
                 'seconds': self.seconds,
                 'millis': self.millis,
                 'victory': self.victory,
-                'endGame': self.endGame
+                'endGame': self.end_game
                 }
 
     @classmethod

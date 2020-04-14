@@ -80,7 +80,8 @@ class GameResource(Resource):
             try:
                 user = UserModel.find_by_username(username)
                 game = GameModel(user.id, data['rows'], data['cols'], data['bombs'], data['board'], data['cellsState'],
-                                 data['cellsClicked'], data['time'])
+                                 data['cellsClicked'], data['minutes'], data['seconds'], data['millis'],
+                                 data['victory'], data['endGame'])
                 game.save_to_db()
             except Exception as e:
                 print(e)

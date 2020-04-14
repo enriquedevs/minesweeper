@@ -13,7 +13,7 @@ class UserModel(db.Model):
         self.username = username
 
     def json(self):
-        return {'username': self.name, 'games': [game.json() for game in self.games.all()]}
+        return {'username': self.username, 'games': [game.json() for game in self.games.all()]}
 
     def save_to_db(self):
         db.session.add(self)
