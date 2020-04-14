@@ -185,6 +185,14 @@ class App extends Component {
             />
           }
           <br />
+          {mapObject.visible && endGame !== 1 &&
+            <div className="game-controls">
+              <p>Game Controls:</p>
+              <p>Click to select board's cell to uncover it (watch out for the mines!).</p>
+              <p>Right Click or Secondary Click on board's cell to add a flag on the cell.</p>
+            </div>
+          }
+          <br />
         </div>
       </div>
     );
