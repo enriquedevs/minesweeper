@@ -8,7 +8,7 @@ This repo has two projects:
 - Flask API for Minesweeper backend under flask-api directory.
 - React App for Minesweeper frontend client under react-client directory.
 
-### Flask API
+## Flask API
 
 The Minesweeper Flask API consists of the following endpoints:
 
@@ -21,7 +21,7 @@ To run the Minesweeper Flask Api locally, just install Python 3.7 or greater, th
 Then run the following command to start the app:<br /><br />
 `python ./flask-api/app.py`
 
-### React Client
+## React Client
 
 The React client is developed by using materialize UI components and the minesweeper logic board on javascript divided on react components.
 
@@ -36,7 +36,7 @@ To run the react client app locally, just install node js and then install the n
 Then run the following command to start the app:<br /><br />
 `npm start`
 
-### Database
+## Database
 
 For this game it was used SQLite to store the users and games played.
 
@@ -47,14 +47,14 @@ The Database tables are the following:
 
 Currently when the Flask API is started, if there is no data.db file then it will create a new one with empty tables, but if it already exists then will take the existent one. Also the Flask API uses SQLAlchemy to map the tables on the backend model.
 
-### Deployment
+## Deployment
 
 These apps (React Client and Flask API) currently are deployed on AWS services, the apps were deployed on the following manner:
 
 - React Client: The react client compiled files are deployed on a public AWS S3 Bucket (http://minesweeperclient.s3-us-west-2.amazonaws.com/index.html)
 - Flask API: The Flask API is deployed on an AWS EC2 instance with a public IP (http://35.167.175.177)
 
-### How the development was approached
+## How the development was approached
 
 For this development the approach and the manner to work was the following:
 
