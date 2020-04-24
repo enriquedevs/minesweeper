@@ -51,8 +51,8 @@ Currently when the Flask API is started, if there is no data.db file then it wil
 
 These apps (React Client and Flask API) currently are deployed on AWS services, the apps were deployed on the following manner:
 
-- React Client: The react client compiled files are deployed on a public AWS S3 Bucket (http://minesweeperclient.s3-us-west-2.amazonaws.com/index.html)
-- Flask API: The Flask API is deployed on an AWS EC2 instance with a public IP (http://35.167.175.177)
+- React Client: The react client compiled files are deployed on a public AWS S3 Bucket and mapped by an own domain with AWS Route 53 service (http://game.enriquedevs.com)
+- Flask API: The Flask API is deployed on an AWS EC2 instance with a public IP and mapped by an own domain with AWS Route 53 service (http://api.enriquedevs.com)
 
 ## How the development was approached
 
