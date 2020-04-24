@@ -37,7 +37,7 @@ class GameSettings extends Component {
     const game = this.state.games.find((g) => g.gameId === parseInt(event.target.id));
     const { gameId, rows, cols, bombs, board, cellsState, cellsClicked, endGame, victory, minutes, seconds, millis } = game;
     this.props.resumeGame(gameId, rows, cols, bombs, JSON.parse(board), JSON.parse(cellsState), cellsClicked, endGame, victory, minutes, seconds, millis);
-    this.setState({ showGameSettings: true, enableGameSettings: false, showGameList: false, });
+    this.setState({ showGameSettings: true, enableGameSettings: false, showGameList: false, rows, cols, bombs });
   }
 
   async saveGame() {
